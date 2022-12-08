@@ -14,6 +14,7 @@ class App extends StatelessWidget {
         scaffoldBackgroundColor: LightTheme.white,
       ),
       home: const OnBoardingPage(),
+      routes: routes,
       onGenerateRoute: generateRoutes,
     );
   }

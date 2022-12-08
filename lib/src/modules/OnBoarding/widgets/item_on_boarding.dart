@@ -20,7 +20,7 @@ class ItemOnBoarding extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: [
       const SizedBox(
-        height: kMediumPadding * 3.6,
+        height: kMediumPadding * 4,
       ),
       Container(
         alignment: Alignment.center,
