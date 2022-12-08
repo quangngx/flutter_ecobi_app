@@ -1,6 +1,7 @@
 ### ------------------------- Flutter.gitignore ------------------------ ###
 windows/
 web/
+linux/
 # Miscellaneous
 *.class
 #*.lock
