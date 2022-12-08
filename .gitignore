@@ -2,6 +2,7 @@
 windows/
 web/
 linux/
+macos/
 # Miscellaneous
 *.class
 #*.lock
