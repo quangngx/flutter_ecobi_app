@@ -85,7 +85,8 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         child: Container(
                           margin: const EdgeInsets.symmetric(
                               horizontal: kMediumPadding),
-                          height: 56,
+                          padding: const EdgeInsets.symmetric(
+                              vertical: kMediumPadding),
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               color: LightTheme.primaryColor2,

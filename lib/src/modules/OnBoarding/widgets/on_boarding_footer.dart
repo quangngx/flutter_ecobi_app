@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecobi_app/src/modules/Home/home_page.dart';
+import 'package:flutter_ecobi_app/src/modules/SignIn/welcome_page.dart';
 
 import '../../../core/config/config.dart';
 import '../../../core/constants/constants.dart';
@@ -27,7 +27,7 @@ class Footer extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, HomePage.routeName);
+                  Navigator.pushNamed(context, WelcomePage.routeName);
                 },
                 child: Text(
                   'Become a shopper',
