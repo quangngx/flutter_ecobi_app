@@ -3,6 +3,11 @@ mixin AssetHelper {
   static const String icoAvatar = 'assets/icon/ico_avatar.png';
   static const String icoProfile = 'assets/icon/ico_profile.png';
   static const String icoWelcome = 'assets/icon/ico_welcome.png';
+  static const String icoBread = 'assets/icon/ico_bread.png';
+  static const String icoFruit = 'assets/icon/ico_fruit.png';
+  static const String icoMeat = 'assets/icon/ico_meat.png';
+  static const String icoSeafood = 'assets/icon/ico_seafood.png';
+  static const String icoVegetable = 'assets/icon/ico_vegetable.png';
 
   static const String icoAdd = 'assets/icon/line/ico_add.png';
   static const String icoArchive = 'assets/icon/line/ico_archive.png';
@@ -86,11 +91,11 @@ mixin AssetHelper {
   static const String bgEmptyCard = 'assets/bg_empty_card.png';
   static const String bgPayment = 'assets/bg_payment_success.png';
   static const String bgCamera = 'assets/bg_camera_permission.png';
-
   static const String bgAvocados = 'assets/avocados.png';
   static const String bgBeefRibs = 'assets/beef_ribs.png';
   static const String bgCoffee = 'assets/coffee.png';
   static const String bgCorn = 'assets/corn.png';
   static const String bgMilk = 'assets/milk.png';
   static const String bgSalmon = 'assets/salmon.png';
+  static const String banner = 'assets/banner.png';
 }
