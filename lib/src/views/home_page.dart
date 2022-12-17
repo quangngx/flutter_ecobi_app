@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -6,6 +7,16 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Column(children: [
+          Row(
+            children: [
+              
+            ],
+          )
+        ]),
+      ),
+    );
   }
 }
