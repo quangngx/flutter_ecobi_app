@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecobi_app/src/modules/SignIn/welcome_page.dart';
+import 'package:flutter_ecobi_app/src/views/welcome_page.dart';
 
 import '../../../core/config/config.dart';
 import '../../../core/constants/constants.dart';

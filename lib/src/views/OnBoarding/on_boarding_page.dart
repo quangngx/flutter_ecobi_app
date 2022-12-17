@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_ecobi_app/src/modules/Home/home_page.dart';
-import 'package:flutter_ecobi_app/src/modules/OnBoarding/models/on_boarding_model.dart';
+import 'package:flutter_ecobi_app/src/views/home_page.dart';
+import 'package:flutter_ecobi_app/src/views/OnBoarding/models/on_boarding_model.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/config/config.dart';
 import '../../core/constants/constants.dart';
