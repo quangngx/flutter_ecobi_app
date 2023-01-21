@@ -1,20 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/core/config/config.dart';
 import 'package:flutter_ecobi_app/src/core/constants/dimension_constants.dart';
+import 'package:flutter_ecobi_app/src/core/data/cart.dart';
+import 'package:flutter_ecobi_app/src/core/data/product.dart';
+import 'package:flutter_ecobi_app/src/core/data/product_provider.dart';
 import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
+import 'package:flutter_ecobi_app/src/views/my_cart_page.dart';
+import 'package:provider/provider.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+import '../widgets/category_item.dart';
+
+class HomePage extends StatelessWidget {
   static String routeName = '/home_page';
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
+  const HomePage({super.key});
 
-class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final ScrollController scrollController = ScrollController();
+    final productsData = Provider.of<ProductProvider>(context);
+    final products = productsData.items;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -32,11 +37,19 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Text(
                   'Hi, Quang Nguyen',
-                  style: TextStyles.defaultStyle.semibold.setTextSize(20),
+                  style: TextStyles.defaultStyle.medium.setTextSize(20),
                 ),
-                ImageHelper.loadFromAsset(
-                  AssetHelper.icoBag,
-                  height: kMediumPadding,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, MyCartPage.routeName);
+                  },
+                  child: Container(
+                    color: Colors.red,
+                    child: ImageHelper.loadFromAsset(
+                      AssetHelper.icoBag,
+                      height: kMediumPadding,
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -52,7 +65,6 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: kMediumPadding * 1.5),
             child: SingleChildScrollView(
-              controller: scrollController,
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
@@ -89,45 +101,80 @@ class _HomePageState extends State<HomePage> {
             padding: const EdgeInsets.only(left: kMediumPadding),
             child: Text(
               'Today\'s Special',
-              style: TextStyles.defaultStyle.bold.setTextSize(22),
+              style: TextStyles.defaultStyle.semibold.setTextSize(22),
             ),
           ),
           //grid products
+          SizedBox(
+              height: 500,
+              child: GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 3 / 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                ),
+                itemCount: products.length,
+                itemBuilder: ((context, index) => ChangeNotifierProvider(
+                    create: (context) => products[index],
+                    child: const ProductItem())),
+              )) //row with two cols
         ]),
       ),
     );
   }
 }
 
-class CategoryItem extends StatelessWidget {
-  const CategoryItem(
-      {Key? key, required this.img, required this.data, this.onTap})
-      : super(key: key);
-  final String img;
-  final String data;
-  final Function()? onTap;
+class ProductItem extends StatelessWidget {
+  const ProductItem({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: Container(
-        padding: const EdgeInsets.only(left: kMediumPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            ClipOval(
-              child: SizedBox(
-                  height: kMediumPadding * 3,
-                  child: ImageHelper.loadFromAsset(img)),
+    final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<CartProvider>(context, listen: false);
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(22),
+      child: GridTile(
+        footer: GridTileBar(
+          backgroundColor: LightTheme.primaryColor2,
+          leading: Consumer<Product>(
+            builder: (ctx, product, _) => IconButton(
+              icon: product.isFavorite
+                  ? const Icon(Icons.favorite)
+                  : const Icon(Icons.favorite_border_outlined),
+              onPressed: () {
+                product.toggleFavorite();
+              },
             ),
-            const SizedBox(
-              height: kItemPadding,
+          ),
+          trailing: IconButton(
+            icon: ImageHelper.loadFromAsset(
+              AssetHelper.icoBoldAddSquare,
+              height: kMediumPadding,
             ),
-            Text(
-              data,
-              style: TextStyles.defaultStyle,
-            )
-          ],
+            onPressed: () {
+              cart.addItem(product.id, product.price, product.title);
+              printOut('add to cart');
+              printOut('${product.id}, ${product.price}, ${product.title}');
+            },
+          ),
+          title: Text(
+            product.title,
+          ),
+        ),
+        child: GestureDetector(
+          onTap: () {},
+          child: Column(
+            children: [
+              Text(product.title),
+              // Consumer<CartProvider>(
+              //     builder: ((ctx, cart, _) => Text(
+              //         'Cart: ${cart.items.values.toList()[index].quantity}')))
+            ],
+          ),
         ),
       ),
     );
