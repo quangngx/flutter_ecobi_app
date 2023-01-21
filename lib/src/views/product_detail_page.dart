@@ -16,11 +16,26 @@ class ProductDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(loadedProduct.title),
       ),
-      body: Center(
-          child: Text(
-        'Detail of ${loadedProduct.title}',
-        style: TextStyles.defaultStyle.medium.setTextSize(30),
-      )),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(
+            child: Text(
+              'Detail of ${loadedProduct.title}',
+              style: TextStyles.defaultStyle.medium.setTextSize(30),
+            ),
+          ),
+          Text(
+            'Price ${loadedProduct.price}',
+            style: TextStyles.defaultStyle.medium.setTextSize(30),
+          ),
+          Text(
+            'Favorite: ${loadedProduct.isFavorite}',
+            style: TextStyles.defaultStyle.medium.setTextSize(30),
+          ),
+        ],
+      ),
     );
   }
 }
