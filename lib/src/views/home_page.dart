@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/core/config/config.dart';
 import 'package:flutter_ecobi_app/src/core/constants/dimension_constants.dart';
-import 'package:flutter_ecobi_app/src/core/data/cart.dart';
-import 'package:flutter_ecobi_app/src/core/data/product.dart';
+import 'package:flutter_ecobi_app/src/core/data/category.dart';
 import 'package:flutter_ecobi_app/src/core/data/product_provider.dart';
 import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
 import 'package:flutter_ecobi_app/src/views/my_cart_page.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/category_item.dart';
+import '../widgets/category_bar.dart';
+import '../widgets/product_item.dart';
 
 class HomePage extends StatelessWidget {
   static String routeName = '/home_page';
@@ -19,6 +19,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final productsData = Provider.of<ProductProvider>(context);
     final products = productsData.items;
+    final categoryData = Provider.of<CategoryProvider>(context);
+    final categories = categoryData.items;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -43,12 +45,9 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     Navigator.pushNamed(context, MyCartPage.routeName);
                   },
-                  child: Container(
-                    color: Colors.red,
-                    child: ImageHelper.loadFromAsset(
-                      AssetHelper.icoBag,
-                      height: kMediumPadding,
-                    ),
+                  child: ImageHelper.loadFromAsset(
+                    AssetHelper.icoBag,
+                    height: kMediumPadding,
                   ),
                 ),
               ],
@@ -61,42 +60,7 @@ class HomePage extends StatelessWidget {
                 right: kMediumPadding),
             child: ImageHelper.loadFromAsset(AssetHelper.banner),
           ),
-          //scroll bar
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: kMediumPadding * 1.5),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  CategoryItem(
-                    data: 'Meat',
-                    img: AssetHelper.icoMeat,
-                    onTap: () {},
-                  ),
-                  CategoryItem(
-                    data: 'Fruit',
-                    img: AssetHelper.icoFruit,
-                    onTap: () {},
-                  ),
-                  CategoryItem(
-                    data: 'Vegetable',
-                    img: AssetHelper.icoVegetable,
-                    onTap: () {},
-                  ),
-                  CategoryItem(
-                    data: 'Seafood',
-                    img: AssetHelper.icoSeafood,
-                    onTap: () {},
-                  ),
-                  CategoryItem(
-                    data: 'Bread',
-                    img: AssetHelper.icoBread,
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            ),
-          ),
+          CategoryBar(categories: categories),
           Padding(
             padding: const EdgeInsets.only(left: kMediumPadding),
             child: Text(
@@ -116,66 +80,10 @@ class HomePage extends StatelessWidget {
                   mainAxisSpacing: 10,
                 ),
                 itemCount: products.length,
-                itemBuilder: ((context, index) => ChangeNotifierProvider(
-                    create: (context) => products[index],
-                    child: const ProductItem())),
+                itemBuilder: ((context, index) => ChangeNotifierProvider.value(
+                    value: products[index], child: const ProductItem())),
               )) //row with two cols
         ]),
-      ),
-    );
-  }
-}
-
-class ProductItem extends StatelessWidget {
-  const ProductItem({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context, listen: false);
-    final cart = Provider.of<CartProvider>(context, listen: false);
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(22),
-      child: GridTile(
-        footer: GridTileBar(
-          backgroundColor: LightTheme.primaryColor2,
-          leading: Consumer<Product>(
-            builder: (ctx, product, _) => IconButton(
-              icon: product.isFavorite
-                  ? const Icon(Icons.favorite)
-                  : const Icon(Icons.favorite_border_outlined),
-              onPressed: () {
-                product.toggleFavorite();
-              },
-            ),
-          ),
-          trailing: IconButton(
-            icon: ImageHelper.loadFromAsset(
-              AssetHelper.icoBoldAddSquare,
-              height: kMediumPadding,
-            ),
-            onPressed: () {
-              cart.addItem(product.id, product.price, product.title);
-              printOut('add to cart');
-              printOut('${product.id}, ${product.price}, ${product.title}');
-            },
-          ),
-          title: Text(
-            product.title,
-          ),
-        ),
-        child: GestureDetector(
-          onTap: () {},
-          child: Column(
-            children: [
-              Text(product.title),
-              // Consumer<CartProvider>(
-              //     builder: ((ctx, cart, _) => Text(
-              //         'Cart: ${cart.items.values.toList()[index].quantity}')))
-            ],
-          ),
-        ),
       ),
     );
   }
