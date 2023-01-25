@@ -22,16 +22,16 @@ class ProductDetailPage extends StatelessWidget {
         children: [
           Center(
             child: Text(
-              'Detail of ${loadedProduct.title}',
+              loadedProduct.title,
               style: TextStyles.defaultStyle.medium.setTextSize(30),
             ),
           ),
           Text(
-            'Price ${loadedProduct.price}',
+            'Price: \$${loadedProduct.price}',
             style: TextStyles.defaultStyle.medium.setTextSize(30),
           ),
           Text(
-            'Favorite: ${loadedProduct.isFavorite}',
+            'Is Favorite: ${loadedProduct.isFavorite}',
             style: TextStyles.defaultStyle.medium.setTextSize(30),
           ),
         ],

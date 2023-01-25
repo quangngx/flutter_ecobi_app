@@ -44,6 +44,7 @@ class ProductItem extends StatelessWidget {
           ),
           title: Text(
             product.title,
+            style: TextStyles.defaultStyle.setTextSize(11).whiteTextColor,
           ),
         ),
         child: GestureDetector(
@@ -53,7 +54,7 @@ class ProductItem extends StatelessWidget {
           },
           child: Container(
             color: LightTheme.neutral100Color,
-            child: Center(child: Text('${product.title} Image')),
+            child: Center(child: Text('\$${product.price}')),
           ),
         ),
       ),

@@ -69,8 +69,9 @@ class HomePage extends StatelessWidget {
             ),
           ),
           //grid products
-          SizedBox(
-              height: 500,
+          Container(
+              padding: const EdgeInsets.symmetric(horizontal: kMediumPadding),
+              height: 400,
               child: GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

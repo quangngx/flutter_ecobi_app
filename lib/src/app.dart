@@ -31,6 +31,9 @@ class App extends StatelessWidget {
             primaryColor: LightTheme.primaryColor2,
             scaffoldBackgroundColor: LightTheme.white,
             appBarTheme: AppBarTheme(
+                iconTheme: const IconThemeData(
+                  color: Colors.black, //change your color here
+                ),
                 shadowColor: Colors.transparent,
                 backgroundColor: LightTheme.white,
                 titleTextStyle:

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/core/config/config.dart';
+import 'package:flutter_ecobi_app/src/views/product_detail_page.dart';
+
 import '../core/constants/constants.dart';
 import 'primary_button.dart';
 
@@ -14,7 +16,10 @@ class PageList extends StatelessWidget {
               child: PrimaryButton(
                 data: e.key,
                 onTap: () {
-                  Navigator.of(context).pushNamed(e.key);
+                  if (e.key == ProductDetailPage.routeName) {
+                  } else {
+                    Navigator.of(context).pushNamed(e.key);
+                  }
                 },
               ),
             ))

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/core/config/config.dart';
 import 'package:flutter_ecobi_app/src/core/constants/dimension_constants.dart';
 import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
+import 'package:flutter_ecobi_app/src/views/home_page.dart';
+
+import '../widgets/primary_button.dart';
 
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
   static String routeName = '/welcome_page';
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,8 +48,9 @@ class WelcomePage extends StatelessWidget {
                 ),
                 PrimaryButton(
                   data: 'Get Started!',
-                  color: LightTheme.primaryColor2,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, HomePage.routeName);
+                  },
                 ),
                 SizedBox(
                   height: SizeHelper.bottomSafeAreaPadding,
@@ -55,37 +59,6 @@ class WelcomePage extends StatelessWidget {
             ),
           )
         ],
-      ),
-    );
-  }
-}
-
-class PrimaryButton extends StatelessWidget {
-  const PrimaryButton({Key? key, required this.data, this.onTap, this.color})
-      : super(key: key);
-
-  final String data;
-  final Function()? onTap;
-  final Color? color;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.symmetric(vertical: kMediumPadding),
-        width: double.infinity,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-            color: color, borderRadius: BorderRadius.circular(kDefaultPadding)),
-        child: Text(
-          'Get Started!',
-          style: color == null
-              ? TextStyles.defaultStyle.bold.copyWith(
-                  color: LightTheme.primaryColor2,
-                )
-              : TextStyles.defaultStyle.whiteTextColor.semibold.setTextSize(16),
-        ),
       ),
     );
   }
