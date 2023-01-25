@@ -6,6 +6,75 @@ import 'package:provider/provider.dart';
 
 import '../core/helper/helper.dart';
 import '../widgets/primary_button.dart';
+import 'product_detail_page.dart';
+
+class CartItem extends StatelessWidget {
+  final CartProvider cart;
+
+  final int index;
+  const CartItem({Key? key, required this.cart, required this.index})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              cart.items.values.toList()[index].title,
+              style: TextStyles.defaultStyle.setTextSize(22),
+            ),
+          ],
+        ),
+        subtitle: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '\$${cart.items.values.toList()[index].price}',
+              style: TextStyles.defaultStyle.setTextSize(16),
+            ),
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      cart.decreaseQuantity(
+                          cart.items.entries
+                              .firstWhere((item) =>
+                                  item.key ==
+                                  cart.items.values.toList()[index].id)
+                              .key,
+                          cart.items.values.toList()[index].price,
+                          cart.items.values.toList()[index].title);
+                      printOut(cart.items.keys.toString());
+                    },
+                    icon: ImageHelper.loadFromAsset(AssetHelper.icoBoldMinus)),
+                Text(
+                  '${cart.items.values.toList()[index].quantity}',
+                  style: TextStyles.defaultStyle.setTextSize(22),
+                ),
+                IconButton(
+                    onPressed: () {
+                      cart.addItem(
+                          cart.items.entries
+                              .firstWhere((item) =>
+                                  item.key ==
+                                  cart.items.values.toList()[index].id)
+                              .key,
+                          cart.items.values.toList()[index].price,
+                          cart.items.values.toList()[index].title);
+                    },
+                    icon: ImageHelper.loadFromAsset(AssetHelper.icoBoldAdd)),
+              ],
+            )
+          ],
+        ),
+        onTap: () {
+          Navigator.pushNamed(context, ProductDetailPage.routeName,
+              arguments: cart.items.values.toList()[index].id);
+        });
+  }
+}
 
 class MyCartPage extends StatelessWidget {
   static String routeName = '/my_cart_page';
@@ -23,25 +92,10 @@ class MyCartPage extends StatelessWidget {
           Expanded(
             child: ListView.builder(
               itemCount: cart.itemCount,
-              itemBuilder: (context, index) => ListTile(
-                  title: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        cart.items.values.toList()[index].title,
-                        style: TextStyles.defaultStyle.setTextSize(22),
-                      ),
-                      Text(
-                        'x ${cart.items.values.toList()[index].quantity}',
-                        style: TextStyles.defaultStyle.setTextSize(22),
-                      )
-                    ],
-                  ),
-                  subtitle: Text(
-                    '\$${cart.items.values.toList()[index].price}',
-                    style: TextStyles.defaultStyle.setTextSize(16),
-                  ),
-                  onTap: () {/* react to the tile being tapped */}),
+              itemBuilder: (context, index) => CartItem(
+                cart: cart,
+                index: index,
+              ),
             ),
           ),
           Padding(
@@ -57,7 +111,7 @@ class MyCartPage extends StatelessWidget {
                         ),
                   ),
                   Text(
-                    '\$${cart.totalAmount}',
+                    '\$${cart.totalAmount.toStringAsFixed(2)}',
                     style: TextStyles.defaultStyle
                         .setTextSize(22)
                         .setColor(LightTheme.primaryColor1),
