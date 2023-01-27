@@ -1,6 +1,8 @@
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/core/config/config.dart';
 import 'package:flutter_ecobi_app/src/core/constants/dimension_constants.dart';
+import 'package:flutter_ecobi_app/src/core/data/cart.dart';
 import 'package:flutter_ecobi_app/src/core/data/category.dart';
 import 'package:flutter_ecobi_app/src/core/data/product_provider.dart';
 import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
@@ -41,13 +43,22 @@ class HomePage extends StatelessWidget {
                   'Hi, Quang Nguyen',
                   style: TextStyles.defaultStyle.medium.setTextSize(20),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, MyCartPage.routeName);
-                  },
-                  child: ImageHelper.loadFromAsset(
-                    AssetHelper.icoBag,
-                    height: kMediumPadding,
+                Consumer<CartProvider>(
+                  builder: (context, value, child) => badges.Badge(
+                    badgeContent: Text(
+                      '${Provider.of<CartProvider>(context).itemCount}',
+                      style: TextStyles.defaultStyle.whiteTextColor
+                          .setTextSize(10),
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, MyCartPage.routeName);
+                      },
+                      child: ImageHelper.loadFromAsset(
+                        AssetHelper.icoBag,
+                        height: kMediumPadding,
+                      ),
+                    ),
                   ),
                 ),
               ],
