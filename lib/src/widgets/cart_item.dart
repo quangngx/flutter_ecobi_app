@@ -41,7 +41,7 @@ class CartItem extends StatelessWidget {
                 tintColor: LightTheme.white)),
       ),
       onDismissed: (direction) {
-        Provider.of<CartProvider>(context,listen: false).removeItem(id);
+        Provider.of<CartProvider>(context, listen: false).removeItem(id);
       },
       child: ListTile(
           title: Row(
@@ -64,12 +64,9 @@ class CartItem extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        cart.decreaseQuantity(
-                            cart.items.entries
-                                .firstWhere((item) => item.key == id)
-                                .key,
-                            price,
-                            title);
+                        cart.removeSingleItem(cart.items.entries
+                            .firstWhere((item) => item.key == id)
+                            .key);
                       },
                       icon:
                           ImageHelper.loadFromAsset(AssetHelper.icoBoldMinus)),

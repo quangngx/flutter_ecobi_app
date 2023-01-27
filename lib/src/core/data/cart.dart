@@ -51,31 +51,28 @@ class CartProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void decreaseQuantity(String id, double price, String title) {
-    if (_items.containsKey(id)) {
-      _items.update(
-          id,
-          (existingCartItem) => CartItem(
-              id: existingCartItem.id,
-              title: existingCartItem.title,
-              price: existingCartItem.price,
-              quantity: existingCartItem.quantity < 2
-                  ? 0
-                  : existingCartItem.quantity - 1));
-      if (_items.entries
-              .firstWhere((element) => element.key == id)
-              .value
-              .quantity ==
-          0) {
-        removeItem(id);
-        return;
-      }
-    }
+  void removeItem(String id) {
+    _items.remove(id);
     notifyListeners();
   }
 
-  void removeItem(String id) {
-    _items.remove(id);
+  void removeSingleItem(String id) {
+    if (!_items.containsKey(id)) {
+      return;
+    }
+
+    if (_items[id]!.quantity > 1) {
+      items.update(
+          id,
+          (existingCartItem) => CartItem(
+                id: existingCartItem.id,
+                title: existingCartItem.title,
+                price: existingCartItem.price,
+                quantity: existingCartItem.quantity - 1,
+              ));
+    } else {
+      removeItem(id);
+    }
     notifyListeners();
   }
 }
