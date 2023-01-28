@@ -23,6 +23,7 @@ class LightTheme {
   static const neutral700Color = Color(0xff595959);
   static const neutral500Color = Color(0xff8C8C8C);
   static const neutral400Color = Color(0xffBFBFBF);
+  static const neutral300Color = Color(0xffD9D9D9);
   static const neutral200Color = Color(0xffF5F5F5);
   static const neutral100Color = Color(0xffFAFAFA);
   static const white = Color(0xffFFFFFF);
