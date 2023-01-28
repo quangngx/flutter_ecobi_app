@@ -43,6 +43,62 @@ class CartItem extends StatelessWidget {
       onDismissed: (direction) {
         Provider.of<CartProvider>(context, listen: false).removeItem(id);
       },
+      confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          builder: (ctx) => Dialog(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+            backgroundColor: LightTheme.white,
+            child: Container(
+              height: SizeHelper.screenHeight / 2,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ImageHelper.loadFromAsset(AssetHelper.bgDelete, height: 200),
+                  Text(
+                    'Delete Selection?',
+                    style: TextStyles.defaultStyle.bold.setTextSize(18),
+                  ),
+                  Text(
+                    'Are you sure you want to\ndelete your selection?',
+                    style: TextStyles.defaultStyle.setColor(
+                      LightTheme.neutral500Color,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildButton(
+                          onTap: () {
+                            Navigator.of(ctx).pop(true);
+                          },
+                          backgroundColor: LightTheme.primaryColor2,
+                          content: Text(
+                            'Delete',
+                            style: TextStyles.defaultStyle.bold.whiteTextColor,
+                          )),
+                      _buildButton(
+                          onTap: () {
+                            Navigator.of(ctx).pop(false);
+                          },
+                          backgroundColor: LightTheme.neutral300Color,
+                          content: Text(
+                            'Cancel',
+                            style: TextStyles.defaultStyle.bold,
+                          )),
+                    ],
+                  )
+                ],
+              ),
+            ),
+          ),
+        );
+      },
       child: ListTile(
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,6 +148,23 @@ class CartItem extends StatelessWidget {
             Navigator.pushNamed(context, ProductDetailPage.routeName,
                 arguments: id);
           }),
+    );
+  }
+
+  GestureDetector _buildButton(
+      {required VoidCallback onTap,
+      required Color backgroundColor,
+      required Text content}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 48),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(kDefaultPadding),
+        ),
+        child: content,
+      ),
     );
   }
 }
