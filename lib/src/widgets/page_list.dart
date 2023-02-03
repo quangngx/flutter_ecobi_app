@@ -6,11 +6,12 @@ import '../core/constants/constants.dart';
 import 'primary_button.dart';
 
 class PageList extends StatelessWidget {
-  const PageList({super.key});
+  final bool isAuthorized ;
+  const PageList({super.key,required this.isAuthorized});
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> pages = routes.entries
+    List<Widget> authorizedPages = authorizedRoutes.entries
         .map((e) => Padding(
               padding: const EdgeInsets.only(bottom: kDefaultPadding),
               child: PrimaryButton(
@@ -25,12 +26,33 @@ class PageList extends StatelessWidget {
             ))
         .toList();
 
-    return Scaffold(
+    List<Widget> unauthorizedPages = unauthorizedRoutes.entries
+        .map((e) => Padding(
+              padding: const EdgeInsets.only(bottom: kDefaultPadding),
+              child: PrimaryButton(
+                data: e.key,
+                onTap: () {
+                  if (e.key == ProductDetailPage.routeName) {
+                  } else {
+                    Navigator.of(context).pushNamed(e.key);
+                  }
+                },
+              ),
+            ))
+        .toList();
+    return isAuthorized ?  Scaffold(
       appBar: AppBar(
         title: const Text('Pages'),
       ),
       body: Column(children: [
-        ...pages,
+        ...authorizedPages,
+      ]),
+    ) : Scaffold(
+      appBar: AppBar(
+        title: const Text('Pages'),
+      ),
+      body: Column(children: [
+        ...unauthorizedPages,
       ]),
     );
   }

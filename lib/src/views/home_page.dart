@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart' as badges;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/core/config/config.dart';
 import 'package:flutter_ecobi_app/src/core/constants/dimension_constants.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
 import 'package:flutter_ecobi_app/src/views/my_cart_page.dart';
 import 'package:provider/provider.dart';
 
+import '../core/providers/auth_provider.dart';
 import '../widgets/category_bar.dart';
 import '../widgets/product_item.dart';
 
@@ -23,6 +25,8 @@ class HomePage extends StatelessWidget {
     final products = productsData.items;
     final categoryData = Provider.of<CategoryProvider>(context);
     final categories = categoryData.items;
+    final auth = Provider.of<AuthProvider>(context);
+    final User? user = auth.firebaseAuth.currentUser;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -40,7 +44,7 @@ class HomePage extends StatelessWidget {
                   height: kMediumPadding,
                 ),
                 Text(
-                  'Hi, Quang Nguyen',
+                  'Hi, ${user?.email ?? 'null'}',
                   style: TextStyles.defaultStyle.medium.setTextSize(20),
                 ),
                 Consumer<CartProvider>(

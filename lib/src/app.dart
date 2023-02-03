@@ -1,8 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/core/config/config.dart';
 import 'package:flutter_ecobi_app/src/core/data/cart.dart';
 import 'package:flutter_ecobi_app/src/core/data/category.dart';
 import 'package:flutter_ecobi_app/src/core/data/product_provider.dart';
+import 'package:flutter_ecobi_app/src/core/providers/auth_provider.dart';
+import 'package:flutter_ecobi_app/src/views/home_page.dart';
 import 'package:flutter_ecobi_app/src/widgets/page_list.dart';
 import 'package:provider/provider.dart';
 
@@ -13,8 +16,13 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthProvider().logOut();
+
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider(),
+        ),
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
         ),
@@ -25,26 +33,74 @@ class App extends StatelessWidget {
           create: (_) => CartProvider(),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            primaryColor: LightTheme.primaryColor2,
-            scaffoldBackgroundColor: LightTheme.white,
-            appBarTheme: AppBarTheme(
-                iconTheme: const IconThemeData(
-                  color: Colors.black, //change your color here
+      child: StreamBuilder<User?>(
+          stream: AuthProvider().firebaseAuth.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                home: Container(
+                  color: Colors.white,
                 ),
-                shadowColor: Colors.transparent,
-                backgroundColor: LightTheme.white,
-                titleTextStyle:
-                    TextStyles.defaultStyle.medium.setTextSize(22))),
-        home: Builder(builder: (context) {
-          SizeHelper.init(context);
-          return const PageList();
-        }),
-        routes: routes,
-        onGenerateRoute: generateRoutes,
-      ),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.active) {
+              if (snapshot.hasData) {
+                return MaterialApp(
+                  debugShowCheckedModeBanner: false,
+                  theme: ThemeData(
+                      primaryColor: LightTheme.primaryColor2,
+                      scaffoldBackgroundColor: LightTheme.white,
+                      appBarTheme: AppBarTheme(
+                          iconTheme: const IconThemeData(
+                            color: Colors.black, //change your color here
+                          ),
+                          shadowColor: Colors.transparent,
+                          backgroundColor: LightTheme.white,
+                          titleTextStyle:
+                              TextStyles.defaultStyle.medium.setTextSize(22))),
+                  home: Builder(builder: (context) {
+                    SizeHelper.init(context);
+                    // return const PageList(
+                    //   isAuthorized: true,
+                    // );
+                    return const HomePage();
+                  }),
+                  routes: authorizedRoutes,
+                  onGenerateRoute: generateRoutes,
+                );
+              }
+              return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: ThemeData(
+                    primaryColor: LightTheme.primaryColor2,
+                    scaffoldBackgroundColor: LightTheme.white,
+                    appBarTheme: AppBarTheme(
+                        iconTheme: const IconThemeData(
+                          color: Colors.black, //change your color here
+                        ),
+                        shadowColor: Colors.transparent,
+                        backgroundColor: LightTheme.white,
+                        titleTextStyle:
+                            TextStyles.defaultStyle.medium.setTextSize(22))),
+                home: Builder(builder: (context) {
+                  SizeHelper.init(context);
+                  return const PageList(
+                    isAuthorized: false,
+                  );
+                }),
+                routes: unauthorizedRoutes,
+                onGenerateRoute: generateRoutes,
+              );
+            }
+            return const MaterialApp(
+              home: Scaffold(
+                body: Center(
+                  child: Text('App Error'),
+                ),
+              ),
+            );
+          }),
     );
   }
 }

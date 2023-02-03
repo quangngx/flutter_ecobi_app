@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/views/home_page.dart';
 import 'package:flutter_ecobi_app/src/views/OnBoarding/models/on_boarding_model.dart';
+import 'package:flutter_ecobi_app/src/views/sign_in_page.dart';
+import 'package:flutter_ecobi_app/src/views/welcome_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../core/config/config.dart';
 import '../../core/constants/constants.dart';
@@ -10,7 +12,9 @@ import 'widgets/on_boarding_footer.dart';
 
 class OnBoardingPage extends StatefulWidget {
   const OnBoardingPage({super.key});
+
   static String routeName = '/on_boarding_page';
+
   @override
   State<OnBoardingPage> createState() => _OnBoardingPageState();
 }
@@ -18,6 +22,7 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final PageController _pageController = PageController();
   final StreamController<int> _streamController = StreamController<int>();
+
   @override
   void initState() {
     super.initState();
@@ -75,7 +80,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                       GestureDetector(
                         onTap: () {
                           if (_pageController.page == 2) {
-                            Navigator.pushNamed(context, HomePage.routeName);
+                            Navigator.pushNamed(context, WelcomePage.routeName);
                           } else {
                             _pageController.nextPage(
                                 duration: const Duration(milliseconds: 200),

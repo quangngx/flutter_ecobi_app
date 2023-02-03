@@ -3,11 +3,13 @@ import 'package:flutter_ecobi_app/src/core/config/config.dart';
 import 'package:flutter_ecobi_app/src/core/constants/dimension_constants.dart';
 import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
 import 'package:flutter_ecobi_app/src/views/home_page.dart';
+import 'package:flutter_ecobi_app/src/views/sign_in_page.dart';
 
 import '../widgets/primary_button.dart';
 
 class WelcomePage extends StatelessWidget {
   static String routeName = '/welcome_page';
+
   const WelcomePage({super.key});
 
   @override
@@ -49,7 +51,7 @@ class WelcomePage extends StatelessWidget {
                 PrimaryButton(
                   data: 'Get Started!',
                   onTap: () {
-                    Navigator.pushNamed(context, HomePage.routeName);
+                    Navigator.pushNamed(context, SignInPage.routeName);
                   },
                 ),
                 SizedBox(
