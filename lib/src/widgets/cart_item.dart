@@ -120,9 +120,16 @@ class CartItem extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        cart.removeSingleItem(cart.items.entries
-                            .firstWhere((item) => item.key == id)
-                            .key);
+                        // cart.removeSingleItem(cart.items.entries
+                        //     .firstWhere((item) => item.key == id)
+                        //     .key);
+
+                        cart.decreaseQuantity(
+                            cart.items.entries
+                                .firstWhere((item) => item.key == id)
+                                .key,
+                            price,
+                            title);
                       },
                       icon:
                           ImageHelper.loadFromAsset(AssetHelper.icoBoldMinus)),

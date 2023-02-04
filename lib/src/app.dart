@@ -5,15 +5,15 @@ import 'package:flutter_ecobi_app/src/core/data/cart.dart';
 import 'package:flutter_ecobi_app/src/core/data/category.dart';
 import 'package:flutter_ecobi_app/src/core/data/product_provider.dart';
 import 'package:flutter_ecobi_app/src/core/providers/auth_provider.dart';
+import 'package:flutter_ecobi_app/src/views/OnBoarding/on_boarding_page.dart';
 import 'package:flutter_ecobi_app/src/views/home_page.dart';
-import 'package:flutter_ecobi_app/src/widgets/page_list.dart';
 import 'package:provider/provider.dart';
 
 import 'core/helper/helper.dart';
 
 class App extends StatelessWidget {
-  const App({Key? key}) : super(key: key);
   static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+  const App({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -54,21 +54,20 @@ class App extends StatelessWidget {
                   navigatorKey: App.navigatorKey,
                   debugShowCheckedModeBanner: false,
                   theme: ThemeData(
-                      primaryColor: LightTheme.primaryColor2,
-                      scaffoldBackgroundColor: LightTheme.white,
-                      appBarTheme: AppBarTheme(
-                          iconTheme: const IconThemeData(
-                            color: Colors.black, //change your color here
-                          ),
-                          shadowColor: Colors.transparent,
-                          backgroundColor: LightTheme.white,
-                          titleTextStyle:
-                              TextStyles.defaultStyle.medium.setTextSize(22),),),
+                    primaryColor: LightTheme.primaryColor2,
+                    scaffoldBackgroundColor: LightTheme.white,
+                    appBarTheme: AppBarTheme(
+                      iconTheme: const IconThemeData(
+                        color: Colors.black, //change your color here
+                      ),
+                      shadowColor: Colors.transparent,
+                      backgroundColor: LightTheme.white,
+                      titleTextStyle:
+                          TextStyles.defaultStyle.medium.setTextSize(22),
+                    ),
+                  ),
                   home: Builder(builder: (context) {
                     SizeHelper.init(context);
-                    // return const PageList(
-                    //   isAuthorized: true,
-                    // );
                     return const HomePage();
                   }),
                   routes: authorizedRoutes,
@@ -90,9 +89,10 @@ class App extends StatelessWidget {
                             TextStyles.defaultStyle.medium.setTextSize(22))),
                 home: Builder(builder: (context) {
                   SizeHelper.init(context);
-                  return const PageList(
-                    isAuthorized: false,
-                  );
+                  // return const PageList(
+                  //   isAuthorized: false,
+                  // );
+                  return const OnBoardingPage();
                 }),
                 routes: unauthorizedRoutes,
                 onGenerateRoute: generateRoutes,

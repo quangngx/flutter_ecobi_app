@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ecobi_app/src/core/config/config.dart';
 import 'package:flutter_ecobi_app/src/core/constants/dimension_constants.dart';
 import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
-import 'package:flutter_ecobi_app/src/views/home_page.dart';
 import 'package:flutter_ecobi_app/src/views/sign_in_page.dart';
 
 import '../widgets/primary_button.dart';

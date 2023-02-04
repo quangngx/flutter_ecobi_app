@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
     final categoryData = Provider.of<CategoryProvider>(context);
     final categories = categoryData.items;
     final auth = Provider.of<AuthProvider>(context);
-    // final User? user = auth.firebaseAuth.currentUser;
+    final User? user = auth.user;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -45,7 +45,7 @@ class HomePage extends StatelessWidget {
                   height: kMediumPadding,
                 ),
                 Text(
-                  'Hi,',
+                  'Hi, ${user?.displayName}',
                   style: TextStyles.defaultStyle.medium.setTextSize(20),
                 ),
                 Consumer<CartProvider>(
@@ -100,9 +100,13 @@ class HomePage extends StatelessWidget {
                 itemBuilder: ((context, index) => ChangeNotifierProvider.value(
                     value: products[index], child: const ProductItem())),
               )),
-          PrimaryButton(data: 'Sign Out',onTap: (){
-            Provider.of<AuthProvider>(context,listen: false).signOut(context);
-          },)
+          PrimaryButton(
+            data: 'Sign Out',
+            onTap: () {
+              Provider.of<AuthProvider>(context, listen: false)
+                  .signOut(context);
+            },
+          )
         ]),
       ),
     );

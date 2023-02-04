@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_ecobi_app/src/app.dart';
 import 'package:flutter_ecobi_app/src/core/constants/constants.dart';
-import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
 import 'package:flutter_ecobi_app/src/core/providers/auth_provider.dart';
+import 'package:flutter_ecobi_app/src/views/sign_up_page.dart';
 import 'package:flutter_ecobi_app/src/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
@@ -56,7 +55,7 @@ class SignInPage extends StatelessWidget {
                 controller: email,
                 decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: 'Enter your phone number',
+                    hintText: 'Enter your email',
                     hintStyle: TextStyles.defaultStyle.subTitleTextColor),
               ),
             ),
@@ -85,13 +84,32 @@ class SignInPage extends StatelessWidget {
             PrimaryButton(
               data: 'Continue',
               onTap: () {
-                printOut('Logging In');
                 auth.loginWithEmail(
                     email: email.text,
                     password: password.text,
                     context: context);
               },
             ),
+            const SizedBox(
+              height: kMediumPadding,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Not have any account? ',
+                    style: TextStyles.defaultStyle.subTitleTextColor),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, SignUpPage.routeName);
+                  },
+                  child: Text(
+                    'Sign Up',
+                    style: TextStyles.defaultStyle.semibold
+                        .setColor(LightTheme.primaryColor2),
+                  ),
+                )
+              ],
+            )
           ],
         ),
       ),

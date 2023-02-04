@@ -1,19 +1,19 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_ecobi_app/src/views/home_page.dart';
 import 'package:flutter_ecobi_app/src/views/OnBoarding/models/on_boarding_model.dart';
-import 'package:flutter_ecobi_app/src/views/sign_in_page.dart';
 import 'package:flutter_ecobi_app/src/views/welcome_page.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import '../../core/config/config.dart';
 import '../../core/constants/constants.dart';
 import 'widgets/item_on_boarding.dart';
 import 'widgets/on_boarding_footer.dart';
 
 class OnBoardingPage extends StatefulWidget {
-  const OnBoardingPage({super.key});
-
   static String routeName = '/on_boarding_page';
+
+  const OnBoardingPage({super.key});
 
   @override
   State<OnBoardingPage> createState() => _OnBoardingPageState();
@@ -22,14 +22,6 @@ class OnBoardingPage extends StatefulWidget {
 class _OnBoardingPageState extends State<OnBoardingPage> {
   final PageController _pageController = PageController();
   final StreamController<int> _streamController = StreamController<int>();
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController.addListener(() {
-      _streamController.add(_pageController.page!.toInt());
-    });
-  }
 
   final List<Widget> pages = [
     ItemOnBoarding(
@@ -114,5 +106,13 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      _streamController.add(_pageController.page!.toInt());
+    });
   }
 }
