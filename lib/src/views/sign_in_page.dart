@@ -86,7 +86,10 @@ class SignInPage extends StatelessWidget {
               data: 'Continue',
               onTap: () {
                 printOut('Logging In');
-                auth.signIn(email.text, password.text);
+                auth.loginWithEmail(
+                    email: email.text,
+                    password: password.text,
+                    context: context);
               },
             ),
           ],

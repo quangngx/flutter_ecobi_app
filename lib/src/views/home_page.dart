@@ -8,6 +8,7 @@ import 'package:flutter_ecobi_app/src/core/data/category.dart';
 import 'package:flutter_ecobi_app/src/core/data/product_provider.dart';
 import 'package:flutter_ecobi_app/src/core/helper/helper.dart';
 import 'package:flutter_ecobi_app/src/views/my_cart_page.dart';
+import 'package:flutter_ecobi_app/src/widgets/primary_button.dart';
 import 'package:provider/provider.dart';
 
 import '../core/providers/auth_provider.dart';
@@ -26,7 +27,7 @@ class HomePage extends StatelessWidget {
     final categoryData = Provider.of<CategoryProvider>(context);
     final categories = categoryData.items;
     final auth = Provider.of<AuthProvider>(context);
-    final User? user = auth.firebaseAuth.currentUser;
+    // final User? user = auth.firebaseAuth.currentUser;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -44,7 +45,7 @@ class HomePage extends StatelessWidget {
                   height: kMediumPadding,
                 ),
                 Text(
-                  'Hi, ${user?.email ?? 'null'}',
+                  'Hi,',
                   style: TextStyles.defaultStyle.medium.setTextSize(20),
                 ),
                 Consumer<CartProvider>(
@@ -98,7 +99,10 @@ class HomePage extends StatelessWidget {
                 itemCount: products.length,
                 itemBuilder: ((context, index) => ChangeNotifierProvider.value(
                     value: products[index], child: const ProductItem())),
-              )) //row with two cols
+              )),
+          PrimaryButton(data: 'Sign Out',onTap: (){
+            Provider.of<AuthProvider>(context,listen: false).signOut(context);
+          },)
         ]),
       ),
     );

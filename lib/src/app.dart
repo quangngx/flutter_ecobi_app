@@ -13,15 +13,18 @@ import 'core/helper/helper.dart';
 
 class App extends StatelessWidget {
   const App({Key? key}) : super(key: key);
+  static final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    AuthProvider().logOut();
-
+    // AuthProvider().signOut(context);
+    final GlobalKey<State> key = GlobalKey();
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (_) => AuthProvider(),
+        Provider(create: (_) => AuthProvider()),
+        StreamProvider(
+          create: (context) => context.read<AuthProvider>().authState,
+          initialData: null,
         ),
         ChangeNotifierProvider(
           create: (_) => ProductProvider(),
@@ -34,7 +37,7 @@ class App extends StatelessWidget {
         )
       ],
       child: StreamBuilder<User?>(
-          stream: AuthProvider().firebaseAuth.authStateChanges(),
+          stream: AuthProvider().auth.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return MaterialApp(
@@ -47,6 +50,8 @@ class App extends StatelessWidget {
             if (snapshot.connectionState == ConnectionState.active) {
               if (snapshot.hasData) {
                 return MaterialApp(
+                  key: key,
+                  navigatorKey: App.navigatorKey,
                   debugShowCheckedModeBanner: false,
                   theme: ThemeData(
                       primaryColor: LightTheme.primaryColor2,
@@ -58,7 +63,7 @@ class App extends StatelessWidget {
                           shadowColor: Colors.transparent,
                           backgroundColor: LightTheme.white,
                           titleTextStyle:
-                              TextStyles.defaultStyle.medium.setTextSize(22))),
+                              TextStyles.defaultStyle.medium.setTextSize(22),),),
                   home: Builder(builder: (context) {
                     SizeHelper.init(context);
                     // return const PageList(
@@ -91,6 +96,7 @@ class App extends StatelessWidget {
                 }),
                 routes: unauthorizedRoutes,
                 onGenerateRoute: generateRoutes,
+                key: const ValueKey('UnAuthorized'),
               );
             }
             return const MaterialApp(
